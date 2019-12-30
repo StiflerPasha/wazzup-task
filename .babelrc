@@ -1,0 +1,40 @@
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-2"
+  ],
+  "plugins": ["transform-vue-jsx",
+    "transform-runtime",
+    ["syntax-dynamic-import"],
+    ["module-resolver", {
+      "alias": {
+        "main": "./src",
+        "main_components": "./src/components",
+        "main_views": "./src/views",
+        "chat": "./src/apps/chat",
+        "chat_components": "./src/apps/chat/components",
+        "chat_views": "./src/apps/chat/views",
+        "settings": "./src/apps/settings",
+        "settings_components": "./src/apps/settings/components",
+        "settings_views": "./src/apps/settings/views",
+        "error": "./src/apps/error",
+        "error_components": "./src/apps/error/components",
+        "error_views": "./src/apps/error/views",
+        "backend": "./src/apps/backend",
+        "backend_components": "./src/apps/backend/components",
+        "backend_views": "./src/apps/backend/views",
+        "t": "./translations",
+        "vars": "./src/assets/"
+      }
+    }]],
+  "env": {
+    "test": {
+      "presets": ["env", "stage-2"]
+    }
+  }
+}

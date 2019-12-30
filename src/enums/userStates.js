@@ -1,0 +1,5 @@
+export const ACTIVE = 'active'
+export const BLOCKED = 'blocked'
+export const AWAIT_CONFIRM = 'awaitConfirm'
+export const INVITATION_SENT = 'invitationSent'
+export const DELETED = 'deleted'

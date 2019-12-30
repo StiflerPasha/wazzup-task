@@ -1,0 +1,5 @@
+export const OWNER = 'owner'
+export const INTEGRATOR = 'integrator'
+export const ADMIN = 'admin'
+export const MANAGER = 'manager'
+export const SUPPORT = 'support'
