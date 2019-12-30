@@ -94,6 +94,9 @@ export function createGetters (store) {
     },
     integrations: (state) => {
       return state.integrations
+    },
+    bookmarks: (state) => {
+      return state.bookmarks
     }
   }
 }

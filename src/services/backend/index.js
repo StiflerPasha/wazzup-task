@@ -40,7 +40,8 @@ export default function install ({ store, options, app }) {
         offs: [],
         payments: [],
         affiliate: []
-      }
+      },
+      bookmarks: []
     },
     actions: {
       init: async ({ commit, state }) => {

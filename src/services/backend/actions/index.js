@@ -10,7 +10,8 @@ import {
   integrations,
   referrals,
   users,
-  clients
+  clients,
+  bookmarks
 } from './cats'
 
 export function createActions (adapter, store, app) {
@@ -29,6 +30,7 @@ export function createActions (adapter, store, app) {
     ...billing(adapter, store, app),
     ...integrations(adapter, store, app),
     ...users(adapter, store, app),
-    ...referrals(adapter, store, app)
+    ...referrals(adapter, store, app),
+    ...bookmarks(adapter, store, app)
   }
 }

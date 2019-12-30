@@ -4,6 +4,7 @@ import Integrations from 'settings_views/Integrations'
 import Affiliate from 'settings_views/Affiliate'
 import SettingsUsers from 'settings_views/SettingsUsers'
 import Page404 from 'settings_views/404.vue'
+import SettingsBookmarks from 'settings_views/SettingsBookmarks.vue'
 
 export default [
   {
@@ -46,6 +47,11 @@ export default [
     path: ':type(users)',
     name: 'settings-users',
     component: SettingsUsers
+  },
+  {
+    path: ':type(bookmarks)',
+    name: 'settings-bookmarks',
+    component: SettingsBookmarks
   },
   {
     path: '/settings/*',

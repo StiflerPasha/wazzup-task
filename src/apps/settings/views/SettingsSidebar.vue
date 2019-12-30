@@ -105,7 +105,7 @@
           SIDEBAR.push({
             title: '__old__.bookmarks',
             name: 'settings-bookmarks',
-            icon: 'language', //  TODO: Change icon
+            icon: 'bookmark', //  TODO: Change icon
             params: {
               type: 'bookmarks',
               app: APP

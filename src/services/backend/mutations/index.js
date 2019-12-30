@@ -155,6 +155,9 @@ export function createMutations () {
     },
     'SET_AMOCRM_USERS': (state, { users }) => {
       Vue.set(state, 'amocrm_users', users)
+    },
+    'SET_BOOKMARKS': (state, data) => {
+      Vue.set(state, 'bookmarks', data)
     }
   }
 }
