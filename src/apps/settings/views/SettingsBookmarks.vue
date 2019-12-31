@@ -4,7 +4,8 @@
       <b-col>
         <b-card :title="$t(`__old__.bookmarks`)">
           <SettingsBookmarksTable
-            :bookmarks="bookmarks"
+            :bookmarks="bookmarks.data"
+            :length="bookmarks.length"
             @update="onUpdate"/>
         </b-card>
       </b-col>
