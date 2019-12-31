@@ -10,25 +10,25 @@
   >
     <form @submit.stop.prevent="handleSubmit">
       <b-form-group
-        label="Link"
+        :label="$t(`bookmarks_locale.link`)"
         label-for="link-input"
         invalid-feedback="Link is required"
       >
         <b-form-input
           id="link-input"
           v-model="form.link"
-          required
+          v-validate="'required'"
         />
       </b-form-group>
       <b-form-group
-        label="Description"
+        :label="$t(`bookmarks_locale.description`)"
         label-for="description-input"
         invalid-feedback="Description is required"
       >
         <b-form-input
           id="description-input"
           v-model="form.description"
-          required
+          v-validate="'required'"
         />
       </b-form-group>
     </form>

@@ -2,7 +2,7 @@
   <div>
     <b-row>
       <b-col>
-        <b-card :title="$t(`__old__.bookmarks`)">
+        <b-card :title="$t(`bookmarks_locale.bookmarks`)">
           <SettingsBookmarksTable
             :bookmarks="bookmarks.data"
             :length="bookmarks.length"

@@ -103,9 +103,9 @@
         }
         if (account.type === 'standart') {
           SIDEBAR.push({
-            title: '__old__.bookmarks',
+            title: 'bookmarks_locale.bookmarks',
             name: 'settings-bookmarks',
-            icon: 'bookmark', //  TODO: Change icon
+            icon: 'bookmark',
             params: {
               type: 'bookmarks',
               app: APP

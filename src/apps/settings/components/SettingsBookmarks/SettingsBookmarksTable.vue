@@ -6,13 +6,13 @@
       size="md"
       variant="success"
     >
-      {{ $t(`users.add`) }}
+      {{ $t(`bookmarks_locale.add_bookmark`) }}
     </b-button>
 
     <b-row align-h="center" class="my-2">
       <b-col cols="5" class="per-page">
         <b-form-group
-          label="Per page:"
+          :label="$t(`bookmarks_locale.per_page`)"
           label-size="sm"
           label-cols="5"
           label-align="right"
@@ -43,7 +43,7 @@
       striped
       hover
       :items="bookmarks"
-      :fields="fields"
+      :fields="tableFields"
       :current-page="currentPage"
       :per-page="perPage"
       :sort-by.sync="sortBy"
@@ -51,7 +51,7 @@
     >
       <template v-slot:cell(favorites)="data">
         <i class="material-icons"
-           @click="onEditLink(data.item)"
+           @click="onEditFavorite(data.item)"
         >
           {{data.item.favorites ? 'star' : 'star_border'}}
         </i>
@@ -64,18 +64,19 @@
       <template v-slot:cell(edit)="data">
         <b-button
           @click="onEditLink(data.item)"
-          variant="outline-success">
-          {{ $t(`common.edit`) }}
+          variant="outline-success"
+          size="sm">
+          {{ $t(`bookmarks_locale.edit`) }}
         </b-button>
       </template>
 
       <template v-slot:cell(createdAt)="data">
-        {{ $f.dt(data.item.createdAt, 'DD.MM.YYYY') }}
+        {{ $f.dt(data.item.createdAt, 'DD-MM-YYYY') }}
       </template>
     </b-table>
 
     <SettingsBookmarkForm
-      :title="$t(`users.add`)"
+      :title="$t(`bookmarks_locale.add_bookmark`)"
       name="addUser"
       @submit="onAddBookmark"
     />
@@ -93,33 +94,38 @@
       return {
         sortBy: 'createdAt',
         sortDesc: true,
-        fields: [
+        totalRows: 1,
+        currentPage: 1,
+        perPage: 5,
+        pageOptions: [5, 20]
+      }
+    },
+    computed: {
+      tableFields () {
+        return [
           {
             key: 'favorites',
-            sortable: true
+            sortable: true,
+            label: this.$t(`bookmarks_locale.favorites`)
           },
           {
             key: 'createdAt',
             sortable: true,
-            label: 'Date'
+            label: this.$t(`bookmarks_locale.created_date`)
           },
           {
             key: 'link',
-            label: 'Link'
+            label: this.$t(`bookmarks_locale.link`)
           },
           {
             key: 'description',
-            label: 'Description'
+            label: this.$t(`bookmarks_locale.description`)
           },
           {
             key: 'edit',
             label: ''
           }
-        ],
-        totalRows: 1,
-        currentPage: 1,
-        perPage: 5,
-        pageOptions: [5, 20]
+        ]
       }
     },
     mounted () {
@@ -131,7 +137,7 @@
         await this.addBookmark(data)
         this.$emit('update')
       },
-      async onEditLink (data) {
+      async onEditFavorite (data) {
         await this.updateBookmark({ guid: data.guid, favorites: !data.favorites })
         this.$emit('update')
       }

@@ -999,10 +999,6 @@ export default {
     'table_promocode_name': {
       'ru': 'Промокод',
       'en': 'Promocode'
-    },
-    'bookmarks': {
-      'ru': 'Закладки',
-      'en': 'Bookmarks'
     }
   },
   'messages': {
@@ -1929,5 +1925,51 @@ export default {
       'ru': 'Только латиница, цифры и дефис',
       'en': 'Only Latin, digits and hyphen'
     }
+  },
+  'bookmarks_locale': {
+    'bookmarks': {
+      'ru': 'Закладки',
+      'en': 'Bookmarks'
+    },
+    'add_bookmark': {
+      'ru': 'Добавить закладку',
+      'en': 'Add bookmark'
+    },
+    'per_page': {
+      'ru': 'На странице:',
+      'en': 'Per page:'
+    },
+    'favorites': {
+      'ru': 'Избранное',
+      'en': 'Favorite'
+    },
+    'add_favorites': {
+      'ru': 'Добавить в избранное',
+      'en': 'Add to favorites'
+    },
+    'created_date': {
+      'ru': 'Дата создания',
+      'en': 'Created date'
+    },
+    'link': {
+      'ru': 'Ссылка',
+      'en': 'Link'
+    },
+    'description': {
+      'ru': 'Описание',
+      'en': 'Description'
+    },
+    'edit': {
+      'ru': 'Редактировать',
+      'en': 'Edit'
+    },
+    'ok': {
+      'ru': 'Ок',
+      'en': 'Ok'
+    },
+    'cancel': {
+      'ru': 'Отменить',
+      'en': 'Cancel'
+    }
   }
-};
+}
