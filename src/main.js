@@ -15,6 +15,8 @@ import VeeValidate, { Validator } from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
 import ru from 'vee-validate/dist/locale/ru'
 
+import Vuelidate from 'vuelidate'
+
 Validator.localize('en', en)
 Validator.localize('ru', ru)
 Vue.use(VueClipboards);
@@ -68,6 +70,8 @@ Vue.use(VeeValidate, {
   locale: store.state.language || ' ru',
   strict: process.env.NODE_ENV !== 'production'
 })
+
+Vue.use(Vuelidate)
 
 const alerts = Vue.prototype.$a = new Vue(Alerts).$mount()
 document.body.appendChild(alerts.$el)
