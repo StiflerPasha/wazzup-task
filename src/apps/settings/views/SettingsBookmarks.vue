@@ -5,6 +5,7 @@
         <b-card :title="$t(`bookmarks_locale.bookmarks`)">
           <SettingsBookmarksTable
             :bookmarks="bookmarks.data"
+            :pending="pending"
             :length="bookmarks.length"
             @update="onUpdate"/>
         </b-card>
@@ -19,19 +20,27 @@
 
   export default {
     name: 'SettingsBookmarks',
+    data () {
+      return {
+        pending: true
+      }
+    },
     components: {
       SettingsBookmarksTable
     },
     computed: {
       ...mapState('backend', ['bookmarks'])
     },
-    created () {
-      this.getBookmarks()
+    async created () {
+      await this.getBookmarks()
+      this.pending = false
     },
     methods: {
       ...mapActions('backend', ['getBookmarks']),
-      onUpdate () {
-        this.getBookmarks()
+      async onUpdate () {
+        this.pending = true
+        await this.getBookmarks()
+        this.pending = false
       }
     }
   }
