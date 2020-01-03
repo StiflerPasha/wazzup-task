@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <preloader v-if="pending"/>
+  <div v-else>
     <b-button
       v-b-modal.addUser
       class="pull-right"
@@ -30,7 +31,7 @@
       <b-col cols="5">
         <b-pagination
           v-model="currentPage"
-          :total-rows="totalRows"
+          :total-rows="length"
           :per-page="perPage"
           align="fill"
           size="sm"
@@ -88,13 +89,12 @@
   import SettingsBookmarkForm from './SettingsBookmarkForm'
 
   export default {
-    props: ['bookmarks', 'length'],
+    props: ['bookmarks', 'length', 'pending'],
     components: {SettingsBookmarkForm},
     data () {
       return {
         sortBy: 'createdAt',
         sortDesc: true,
-        totalRows: 1,
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 20]
@@ -127,9 +127,6 @@
           }
         ]
       }
-    },
-    mounted () {
-      this.totalRows = this.length
     },
     methods: {
       ...mapActions('backend', ['addBookmark', 'updateBookmark']),
