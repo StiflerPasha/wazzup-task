@@ -1935,6 +1935,10 @@ export default {
       'ru': 'Добавить закладку',
       'en': 'Add bookmark'
     },
+    'edit_bookmark': {
+      'ru': 'Редактировать закладку',
+      'en': 'Edit bookmark'
+    },
     'per_page': {
       'ru': 'На странице:',
       'en': 'Per page:'
@@ -1955,6 +1959,10 @@ export default {
       'ru': 'Ссылка',
       'en': 'Link'
     },
+    'input_link_error': {
+      'ru': 'Это обязательное поле и должен быть URL',
+      'en': 'This is a required field and must be a URL'
+    },
     'description': {
       'ru': 'Описание',
       'en': 'Description'
@@ -1970,6 +1978,10 @@ export default {
     'cancel': {
       'ru': 'Отменить',
       'en': 'Cancel'
+    },
+    'add': {
+      'ru': 'Добавить',
+      'en': 'Add'
     }
   }
 }
