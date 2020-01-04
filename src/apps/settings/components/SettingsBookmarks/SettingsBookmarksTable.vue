@@ -10,35 +10,8 @@
       {{ $t(`bookmarks_locale.add_bookmark`) }}
     </b-button>
 
-    <b-row align-h="center" class="my-2">
-      <b-col cols="5" class="per-page">
-        <b-form-group
-          :label="$t(`bookmarks_locale.per_page`)"
-          label-size="sm"
-          label-cols="5"
-          label-align="right"
-          label-for="perPageSelect"
-          class="mb-0"
-        >
-          <b-form-select
-            v-model="perPage"
-            id="perPageSelect"
-            size="sm"
-            :options="pageOptions"
-          />
-        </b-form-group>
-      </b-col>
-      <b-col cols="5">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="length"
-          :per-page="perPage"
-          align="fill"
-          size="sm"
-          class="my-0"
-        />
-      </b-col>
-    </b-row>
+    <SettingsBookmarkFilter
+      @changeFav="onChangeFav"/>
 
     <b-table
       striped
@@ -76,10 +49,42 @@
       </template>
     </b-table>
 
+    <b-row align-h="start" class="my-2">
+      <b-col cols="5" class="per-page">
+        <b-form-group
+          :label="$t(`bookmarks_locale.per_page`)"
+          label-size="sm"
+          label-cols="5"
+          label-align="right"
+          label-for="perPageSelect"
+          class="mb-0"
+        >
+          <b-form-select
+            v-model="perPage"
+            id="perPageSelect"
+            size="sm"
+            :options="pageOptions"
+          />
+        </b-form-group>
+      </b-col>
+      <b-col cols="7">
+        <b-pagination
+          class="my-0"
+          v-model="currentPage"
+          :total-rows="length"
+          :per-page="perPage"
+          first-text="First"
+          prev-text="Prev"
+          next-text="Next"
+          last-text="Last"
+        />
+      </b-col>
+    </b-row>
+
     <SettingsBookmarkForm
       :id="modalId"
-      :modalData="modalData"
       :isEdit="isEdit"
+      :modalData="modalData"
       @add="onAddBookmark"
       @edit="onEditBookmark"
       @reset="onResetModal"
@@ -89,11 +94,12 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import SettingsBookmarkForm from './SettingsBookmarkForm'
+  import SettingsBookmarkForm from './SettingsBookmarksForm'
+  import SettingsBookmarkFilter from './SettingsBookmarksFilter'
 
   export default {
     props: ['bookmarks', 'length', 'pending'],
-    components: { SettingsBookmarkForm },
+    components: { SettingsBookmarkForm, SettingsBookmarkFilter },
     data () {
       return {
         sortBy: 'createdAt',
@@ -103,7 +109,8 @@
         pageOptions: [5, 20],
         modalId: '',
         modalData: {},
-        isEdit: false
+        isEdit: false,
+        filterFav: 'all'
       }
     },
     computed: {
@@ -135,7 +142,7 @@
       }
     },
     methods: {
-      ...mapActions('backend', ['addBookmark', 'updateBookmark']),
+      ...mapActions('backend', ['addBookmark', 'updateBookmark', 'getBookmarksFilteredByFav']),
       goAddModal () {
         this.modalId = 'add'
         this.isEdit = false
@@ -152,19 +159,41 @@
         })
       },
       async onAddBookmark (data) {
-        await this.addBookmark(data)
-        this.$emit('update')
+        try {
+          await this.addBookmark(data)
+          await this.getBookmarksFilteredByFav(this.filterFav)
+        } catch (err) {
+          /*
+            Проверка на BOOKMARKS_INVALID_LINK не имеет смысла
+            Поле проходит валидацию
+          */
+          const { description } = err.error.data[0]
+          this.$a.push({ type: 'danger', text: description })
+        }
       },
       async onEditBookmark (data) {
-        await this.updateBookmark(data)
-        this.$emit('update')
+        try {
+          await this.updateBookmark(data)
+          await this.getBookmarksFilteredByFav(this.filterFav)
+        } catch (err) {
+          const { description } = err.error.data[0]
+          this.$a.push({ type: 'danger', text: description })
+        }
       },
       async onEditFavorite (data) {
-        await this.updateBookmark({ guid: data.guid, favorites: !data.favorites })
-        this.$emit('update')
+        try {
+          await this.updateBookmark({ guid: data.guid, favorites: !data.favorites })
+          await this.getBookmarksFilteredByFav(this.filterFav)
+        } catch (err) {
+          const { description } = err.error.data[0]
+          this.$a.push({ type: 'danger', text: description })
+        }
       },
       onResetModal () {
         this.modalData = {}
+      },
+      onChangeFav (val) {
+        this.filterFav = val
       }
     }
   }
@@ -174,7 +203,7 @@
   i {
     cursor:pointer;
   }
-  .per-page {
+  .form-group {
     max-width: 250px;
     select {
       max-width: 50px;

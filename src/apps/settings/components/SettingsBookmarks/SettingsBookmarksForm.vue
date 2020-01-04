@@ -60,9 +60,9 @@
   import { required, url } from 'vuelidate/lib/validators'
 
   const createDefaultForm = () => ({
-    link: null,
-    description: null,
-    favorites: null
+    link: '',
+    description: '',
+    favorites: false
   })
 
   export default {
