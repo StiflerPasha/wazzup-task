@@ -1,15 +1,48 @@
 export function bookmarks (adapter, store) {
   return {
     getBookmarks: async ({ state, commit }) => {
-      const bookmarks = await adapter.get('/bookmarks/', { auth: true, __temporary_oldScheme: true })
-      commit('SET_BOOKMARKS', bookmarks)
+      try {
+        const bookmarks = await adapter.get(
+          '/bookmarks/',
+          { auth: true, __temporary_oldScheme: true })
+        commit('SET_BOOKMARKS', bookmarks)
+      } catch (err) {
+        throw err
+      }
+    },
+    getBookmarksFilteredByFav: async ({state, commit}, isFav) => {
+      if (isFav === 'all') {
+        store.dispatch('backend/getBookmarks')
+      } else {
+        try {
+          const bookmarks = await adapter.get(
+            `/bookmarks/?filter=favorites&filter_value=${isFav}`,
+            { auth: true, __temporary_oldScheme: true })
+          commit('SET_BOOKMARKS', bookmarks)
+        } catch (err) {
+          throw err
+        }
+      }
     },
     addBookmark: async ({state, commit}, data) => {
-      return adapter.post(`/bookmarks/`, data, { auth: true, __temporary_oldScheme: true })
+      try {
+        await adapter.post(
+          `/bookmarks/`,
+          data,
+          { auth: true, __temporary_oldScheme: true })
+      } catch (err) {
+        throw err
+      }
     },
     updateBookmark: async ({state, commit}, data) => {
-      await adapter.patch(`/bookmarks/${data.guid}`, data, { auth: true, __temporary_oldScheme: true })
-      store.dispatch('backend/getBookmarks')
+      try {
+        await adapter.patch(
+          `/bookmarks/${data.guid}`,
+          data,
+          { auth: true, __temporary_oldScheme: true })
+      } catch (err) {
+        throw err
+      }
     }
   }
 }
