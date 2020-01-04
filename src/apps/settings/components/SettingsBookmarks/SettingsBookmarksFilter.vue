@@ -13,21 +13,41 @@
       </b-form-group>
     </b-col>
 
-    <b-col cols="3">
-      date filter
+    <b-col cols="6">
+      <b-form-group
+        :description="$t(`bookmarks_locale.filter_fav`)"
+        label-for="date"
+      >
+        <DatePicker
+          style="display: inline-block"
+          mode='range'
+          v-model='range'
+          :max-date="new Date()"
+          :locale="user.lang"/>
+        <b-btn variant="outline-primary">
+          Ok
+        </b-btn>
+      </b-form-group>
     </b-col>
   </b-row>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
+  import DatePicker from 'v-calendar/lib/components/date-picker.umd'
   export default {
+    components: { DatePicker },
     data () {
       return {
-        selected: 'all'
+        selected: 'all',
+        range: {
+          start: null,
+          end: null
+        }
       }
     },
     computed: {
+      ...mapGetters('backend', ['user']),
       options () {
         return [
           {value: true, text: this.$t(`bookmarks_locale.favorites`)},
@@ -47,7 +67,7 @@
 </script>
 
 <style lang='scss' scoped>
-.form-group{
-  max-width: 150px;
-}
+  .form-group {
+    max-width: 250px;
+  }
 </style>
