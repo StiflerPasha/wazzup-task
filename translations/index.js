@@ -1982,6 +1982,18 @@ export default {
     'add': {
       'ru': 'Добавить',
       'en': 'Add'
+    },
+    'filter_fav': {
+      'ru': 'Фильтр по Избранным',
+      'en': 'Filter by Favorites'
+    },
+    'all': {
+      'ru': 'Все',
+      'en': 'All'
+    },
+    'common': {
+      'ru': 'Обычные',
+      'en': 'Common'
     }
   }
 }
