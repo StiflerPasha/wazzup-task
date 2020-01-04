@@ -2,7 +2,7 @@
   <preloader v-if="pending"/>
   <div v-else>
     <b-button
-      v-b-modal.addUser
+      @click="goAddModal()"
       class="pull-right"
       size="md"
       variant="success"
@@ -64,7 +64,7 @@
 
       <template v-slot:cell(edit)="data">
         <b-button
-          @click="onEditLink(data.item)"
+          @click="goEditModal(data.item)"
           variant="outline-success"
           size="sm">
           {{ $t(`bookmarks_locale.edit`) }}
@@ -77,9 +77,12 @@
     </b-table>
 
     <SettingsBookmarkForm
-      :title="$t(`bookmarks_locale.add_bookmark`)"
-      name="addUser"
-      @submit="onAddBookmark"
+      :id="modalId"
+      :modalData="modalData"
+      :isEdit="isEdit"
+      @add="onAddBookmark"
+      @edit="onEditBookmark"
+      @reset="onResetModal"
     />
   </div>
 </template>
@@ -90,14 +93,17 @@
 
   export default {
     props: ['bookmarks', 'length', 'pending'],
-    components: {SettingsBookmarkForm},
+    components: { SettingsBookmarkForm },
     data () {
       return {
         sortBy: 'createdAt',
         sortDesc: true,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 20]
+        pageOptions: [5, 20],
+        modalId: '',
+        modalData: {},
+        isEdit: false
       }
     },
     computed: {
@@ -130,13 +136,35 @@
     },
     methods: {
       ...mapActions('backend', ['addBookmark', 'updateBookmark']),
+      goAddModal () {
+        this.modalId = 'add'
+        this.isEdit = false
+        this.$nextTick(() => {
+          this.$bvModal.show(`${this.modalId}`)
+        })
+      },
+      goEditModal (data) {
+        this.modalId = 'edit'
+        this.isEdit = true
+        this.modalData = data
+        this.$nextTick(() => {
+          this.$bvModal.show(`${this.modalId}`)
+        })
+      },
       async onAddBookmark (data) {
         await this.addBookmark(data)
+        this.$emit('update')
+      },
+      async onEditBookmark (data) {
+        await this.updateBookmark(data)
         this.$emit('update')
       },
       async onEditFavorite (data) {
         await this.updateBookmark({ guid: data.guid, favorites: !data.favorites })
         this.$emit('update')
+      },
+      onResetModal () {
+        this.modalData = {}
       }
     }
   }
