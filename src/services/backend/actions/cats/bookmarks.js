@@ -24,6 +24,16 @@ export function bookmarks (adapter, store) {
         }
       }
     },
+    getBookmarksFilteredByDate: async ({state, commit}, {start, end}) => {
+      try {
+        const bookmarks = await adapter.get(
+          `/bookmarks/?filter=createdAt&filter_from=${start}&filter_to=${end}`,
+          { auth: true, __temporary_oldScheme: true })
+        commit('SET_BOOKMARKS', bookmarks)
+      } catch (err) {
+        throw err
+      }
+    },
     addBookmark: async ({state, commit}, data) => {
       try {
         await adapter.post(
