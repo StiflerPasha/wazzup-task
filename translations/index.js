@@ -1975,6 +1975,10 @@ export default {
       'ru': 'Ок',
       'en': 'Ok'
     },
+    'search': {
+      'ru': 'Искать',
+      'en': 'Search'
+    },
     'cancel': {
       'ru': 'Отменить',
       'en': 'Cancel'
@@ -1984,8 +1988,12 @@ export default {
       'en': 'Add'
     },
     'filter_fav': {
-      'ru': 'Фильтр по Избранным',
-      'en': 'Filter by Favorites'
+      'ru': 'Фильтр по избранным',
+      'en': 'Filter by favorites'
+    },
+    'filter_date': {
+      'ru': 'Фильтр по дате',
+      'en': 'Filter by dates'
     },
     'all': {
       'ru': 'Все',
@@ -1994,6 +2002,10 @@ export default {
     'common': {
       'ru': 'Обычные',
       'en': 'Common'
+    },
+    'not_found': {
+      'ru': 'Ничего не найдено',
+      'en': 'Nothing found'
     }
   }
 }
