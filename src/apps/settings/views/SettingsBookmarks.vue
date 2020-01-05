@@ -39,7 +39,6 @@
       } catch (err) {
         this.isError = true
         this.pending = false
-        this.$a.push({ type: 'danger', text: err })
       }
     },
     methods: {
