@@ -1,6 +1,5 @@
 <template>
-  <preloader v-if="pending"/>
-  <div v-else>
+  <div>
     <b-button
       @click="goAddModal()"
       class="pull-right"
@@ -13,7 +12,18 @@
     <SettingsBookmarkFilter
       @changeFav="onChangeFav"/>
 
+    <preloader
+      v-if="pending"/>
+
+    <div
+      v-else-if="!length"
+      class="empty"
+    >
+      {{$t(`bookmarks_locale.not_found`)}}
+    </div>
+
     <b-table
+      v-else
       striped
       hover
       :items="bookmarks"
@@ -49,7 +59,7 @@
       </template>
     </b-table>
 
-    <b-row align-h="start" class="my-2">
+    <b-row v-if="length" align-h="start" class="my-2">
       <b-col cols="5" class="per-page">
         <b-form-group
           :label="$t(`bookmarks_locale.per_page`)"
@@ -69,14 +79,11 @@
       </b-col>
       <b-col cols="7">
         <b-pagination
-          class="my-0"
+          class="my-0 pagination"
           v-model="currentPage"
           :total-rows="length"
           :per-page="perPage"
-          first-text="First"
-          prev-text="Prev"
-          next-text="Next"
-          last-text="Last"
+          align="fill"
         />
       </b-col>
     </b-row>
@@ -208,5 +215,17 @@
     select {
       max-width: 50px;
     }
+  }
+  .pagination {
+    max-width: 350px;
+  }
+  .empty {
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    color: #b0b0b0;
+    font-weight: bold;
+    font-size: 2rem;
   }
 </style>
