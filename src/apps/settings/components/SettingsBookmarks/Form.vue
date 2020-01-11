@@ -7,7 +7,10 @@
     @hidden="onHidden"
   >
     <b-form @submit.stop.prevent="onSubmit">
-      <b-form-group :label="$t(`bookmarks_locale.link`)" label-for="link-input">
+      <b-form-group
+        :label="$t(`bookmarks_locale.link`)"
+        label-for="link-input"
+      >
         <b-form-input
           id="link-input"
           name="link"
@@ -21,7 +24,10 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group :label="$t(`bookmarks_locale.description`)" label-for="description">
+      <b-form-group
+        :label="$t(`bookmarks_locale.description`)"
+        label-for="description"
+      >
         <b-form-textarea
           id="description"
           v-model="form.description"
@@ -43,14 +49,14 @@
       >
         {{$t(`bookmarks_locale.cancel`)}}
       </b-button>
-        <b-button
-          variant="success"
-          class="float-right"
-          :disabled="$v.form.$invalid"
-          @click="onSubmit"
-        >
-          {{isEdit ? $t(`bookmarks_locale.edit`) : $t(`bookmarks_locale.add`)}}
-        </b-button>
+      <b-button
+        variant="success"
+        class="float-right"
+        :disabled="$v.form.$invalid"
+        @click="onSubmit"
+      >
+        {{isEdit ? $t(`bookmarks_locale.edit`) : $t(`bookmarks_locale.add`)}}
+      </b-button>
     </template>
   </b-modal>
 </template>
@@ -89,7 +95,7 @@
         this.$bvModal.hide(`${this.id}`)
       },
       onShow () {
-        this.form = this.isEdit ? { ...this.modalData } : {...createDefaultForm()}
+        this.form = this.isEdit ? {...this.modalData} : {...createDefaultForm()}
       },
       onSubmit () {
         this.$v.form.$touch()

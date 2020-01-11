@@ -4,11 +4,13 @@
       <b-col>
         <b-card :title="$t(`bookmarks_locale.bookmarks`)">
           <Error v-if="isError"/>
-          <SettingsBookmarksTable
+
+          <Table
             v-else
             :bookmarks="bookmarks.data"
             :pending="pending"
-            :length="bookmarks.length"/>
+            :length="bookmarks.length"
+          />
         </b-card>
       </b-col>
     </b-row>
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-  import SettingsBookmarksTable from '../components/SettingsBookmarks/SettingsBookmarksTable'
+  import Table from '../components/SettingsBookmarks/Table'
   import Error from './404'
   import { mapActions, mapState } from 'vuex'
 
@@ -28,7 +30,7 @@
         isError: false
       }
     },
-    components: { SettingsBookmarksTable, Error },
+    components: {Table, Error},
     computed: {
       ...mapState('backend', ['bookmarks'])
     },
@@ -46,7 +48,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-
-</style>

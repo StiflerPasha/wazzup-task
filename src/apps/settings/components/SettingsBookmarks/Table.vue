@@ -9,7 +9,7 @@
       {{ $t(`bookmarks_locale.add_bookmark`) }}
     </b-button>
 
-    <SettingsBookmarkFilter
+    <Filter
       @changeFav="onChangeFav"/>
 
     <preloader
@@ -88,7 +88,7 @@
       </b-col>
     </b-row>
 
-    <SettingsBookmarkForm
+    <Form
       :id="modalId"
       :isEdit="isEdit"
       :modalData="modalData"
@@ -101,12 +101,12 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import SettingsBookmarkForm from './SettingsBookmarksForm'
-  import SettingsBookmarkFilter from './SettingsBookmarksFilter'
+  import Form from './Form'
+  import Filter from './Filter'
 
   export default {
     props: ['bookmarks', 'length', 'pending'],
-    components: { SettingsBookmarkForm, SettingsBookmarkFilter },
+    components: {Form, Filter},
     data () {
       return {
         sortBy: 'createdAt',
@@ -174,8 +174,8 @@
             Проверка на BOOKMARKS_INVALID_LINK не имеет смысла
             Поле проходит валидацию
           */
-          const { description } = err.error.data[0]
-          this.$a.push({ type: 'danger', text: description })
+          const {description} = err.error.data[0]
+          this.$a.push({type: 'danger', text: description})
         }
       },
       async onEditBookmark (data) {
@@ -183,17 +183,17 @@
           await this.updateBookmark(data)
           await this.getBookmarksFilteredByFav(this.filterFav)
         } catch (err) {
-          const { description } = err.error.data[0]
-          this.$a.push({ type: 'danger', text: description })
+          const {description} = err.error.data[0]
+          this.$a.push({type: 'danger', text: description})
         }
       },
       async onEditFavorite (data) {
         try {
-          await this.updateBookmark({ guid: data.guid, favorites: !data.favorites })
+          await this.updateBookmark({guid: data.guid, favorites: !data.favorites})
           await this.getBookmarksFilteredByFav(this.filterFav)
         } catch (err) {
-          const { description } = err.error.data[0]
-          this.$a.push({ type: 'danger', text: description })
+          const {description} = err.error.data[0]
+          this.$a.push({type: 'danger', text: description})
         }
       },
       onResetModal () {
@@ -208,17 +208,21 @@
 
 <style lang='scss' scoped>
   i {
-    cursor:pointer;
+    cursor: pointer;
   }
+
   .form-group {
     max-width: 250px;
+
     select {
       max-width: 50px;
     }
   }
+
   .pagination {
     max-width: 350px;
   }
+
   .empty {
     display: flex;
     height: 100px;
