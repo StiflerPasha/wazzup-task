@@ -1,19 +1,6 @@
 <template>
   <div>
-    <b-button
-      @click="goAddModal()"
-      class="pull-right"
-      size="md"
-      variant="success"
-    >
-      {{ $t(`bookmarks_locale.add_bookmark`) }}
-    </b-button>
-
-    <Filter
-      @changeFav="onChangeFav"/>
-
-    <preloader
-      v-if="pending"/>
+    <preloader v-if="pending"/>
 
     <div
       v-else-if="!length"
@@ -47,7 +34,7 @@
 
       <template v-slot:cell(edit)="data">
         <b-button
-          @click="goEditModal(data.item)"
+          @click="$emit('editCurrentLink', data.item)"
           variant="outline-success"
           size="sm">
           {{ $t(`bookmarks_locale.edit`) }}
@@ -87,37 +74,27 @@
         />
       </b-col>
     </b-row>
-
-    <Form
-      :id="modalId"
-      :isEdit="isEdit"
-      :modalData="modalData"
-      @add="onAddBookmark"
-      @edit="onEditBookmark"
-      @reset="onResetModal"
-    />
   </div>
 </template>
 
 <script>
   import { mapActions } from 'vuex'
-  import Form from './Form'
-  import Filter from './Filter'
+  import ModalForm from './ModalForm'
+  import TableFilter from './TableFilter'
 
   export default {
     props: ['bookmarks', 'length', 'pending'],
-    components: {Form, Filter},
+    components: {
+      ModalForm,
+      TableFilter
+    },
     data () {
       return {
         sortBy: 'createdAt',
         sortDesc: true,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 20],
-        modalId: '',
-        modalData: {},
-        isEdit: false,
-        filterFav: 'all'
+        pageOptions: [5, 20]
       }
     },
     computed: {
@@ -149,58 +126,14 @@
       }
     },
     methods: {
-      ...mapActions('backend', ['addBookmark', 'updateBookmark', 'getBookmarksFilteredByFav']),
-      goAddModal () {
-        this.modalId = 'add'
-        this.isEdit = false
-        this.$nextTick(() => {
-          this.$bvModal.show(`${this.modalId}`)
-        })
-      },
-      goEditModal (data) {
-        this.modalId = 'edit'
-        this.isEdit = true
-        this.modalData = data
-        this.$nextTick(() => {
-          this.$bvModal.show(`${this.modalId}`)
-        })
-      },
-      async onAddBookmark (data) {
-        try {
-          await this.addBookmark(data)
-          await this.getBookmarksFilteredByFav(this.filterFav)
-        } catch (err) {
-          /*
-            Проверка на BOOKMARKS_INVALID_LINK не имеет смысла
-            Поле проходит валидацию
-          */
-          const {description} = err.error.data[0]
-          this.$a.push({type: 'danger', text: description})
-        }
-      },
-      async onEditBookmark (data) {
-        try {
-          await this.updateBookmark(data)
-          await this.getBookmarksFilteredByFav(this.filterFav)
-        } catch (err) {
-          const {description} = err.error.data[0]
-          this.$a.push({type: 'danger', text: description})
-        }
-      },
+      ...mapActions('backend', ['updateBookmark']),
       async onEditFavorite (data) {
         try {
           await this.updateBookmark({guid: data.guid, favorites: !data.favorites})
-          await this.getBookmarksFilteredByFav(this.filterFav)
         } catch (err) {
           const {description} = err.error.data[0]
           this.$a.push({type: 'danger', text: description})
         }
-      },
-      onResetModal () {
-        this.modalData = {}
-      },
-      onChangeFav (val) {
-        this.filterFav = val
       }
     }
   }

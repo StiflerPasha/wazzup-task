@@ -64,6 +64,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, url } from 'vuelidate/lib/validators'
+  import { mapActions } from 'vuex'
 
   const createDefaultForm = () => ({
     link: '',
@@ -88,23 +89,43 @@
       }
     },
     methods: {
+      ...mapActions('backend', ['addBookmark', 'updateBookmark']),
       onHidden () {
         this.form = createDefaultForm()
         this.$v.$reset()
-        this.$emit('reset')
         this.$bvModal.hide(`${this.id}`)
       },
       onShow () {
-        this.form = this.isEdit ? {...this.modalData} : {...createDefaultForm()}
+        this.form = this.isEdit
+          ? {...this.modalData}
+          : {...createDefaultForm()}
       },
+
+      async onAddBookmark (data) {
+        try {
+          await this.addBookmark(data)
+        } catch (err) {
+          const {description} = err.error.data[0]
+          this.$a.push({type: 'danger', text: description})
+        }
+      },
+      async onEditBookmark (data) {
+        try {
+          await this.updateBookmark(data)
+        } catch (err) {
+          const {description} = err.error.data[0]
+          this.$a.push({type: 'danger', text: description})
+        }
+      },
+
       onSubmit () {
         this.$v.form.$touch()
         if (this.$v.form.$anyError) return
-        if (this.isEdit) {
-          this.$emit('edit', {...this.form})
-        } else {
-          this.$emit('add', {...this.form})
-        }
+
+        this.isEdit
+          ? this.onEditBookmark({...this.form})
+          : this.onAddBookmark({...this.form})
+
         this.$bvModal.hide(`${this.id}`)
       }
     }

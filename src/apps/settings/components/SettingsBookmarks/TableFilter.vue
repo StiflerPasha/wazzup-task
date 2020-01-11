@@ -67,13 +67,13 @@
       }
     },
     methods: {
-      ...mapActions('backend', ['getBookmarksFilteredByFav', 'getBookmarksFilteredByDate']),
+      ...mapActions('backend', ['fetchBookmarksFilteredByFav', 'fetchBookmarksFilteredByDate']),
       onChangeFav () {
         this.range = defaultRange()
         this.$refs.dp.inputValue = ''
+
         try {
-          this.getBookmarksFilteredByFav(this.selected)
-          this.$emit('changeFav', this.selected)
+          this.fetchBookmarksFilteredByFav(this.selected)
         } catch (err) {
           console.log(err)
           // this.$a.push({ type: 'danger', text: err })
@@ -84,9 +84,9 @@
         const msInDay = 86400000
         const start = this.range.start.getTime()
         const end = this.range.end.getTime() + msInDay
+
         try {
-          this.getBookmarksFilteredByDate({start, end})
-          this.$emit('changeFav', this.selected)
+          this.fetchBookmarksFilteredByDate({start, end})
         } catch (err) {
           console.log(err)
           // this.$a.push({ type: 'danger', text: err })

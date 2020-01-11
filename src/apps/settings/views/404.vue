@@ -13,6 +13,6 @@
 <style>
   .page404 {
     text-align: center;
-    font-size: 5rem;
+    font-size: 3rem;
   }
 </style>
